@@ -1,0 +1,244 @@
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <style type="text/css">
+            body {
+                margin:0;
+                padding:0;
+                border:0;
+                overflow:hidden;
+            }
+
+            div {
+                position:absolute;
+                margin:0;
+                padding:0;
+                border:0;
+                outline:0;
+                font-family:arial;
+                font-size:12px;
+                text-align:center;
+            }
+
+            #info {
+                position: absolute;
+                width: 100%;
+                color: #000000;
+                padding: 5px;
+                font-family: Monospace;
+                font-size: 18px;
+                font-weight: bold;
+                text-align: center;
+                z-index: 1;
+            }
+
+            #playbutton {
+                position:absolute;
+                top:50%;
+                left:50%;
+                margin-left:-137px;
+                margin-top:-25px;
+                width:256px;
+                height:32px;
+                padding:16px;
+                border-radius:16px;
+                border:2px solid black;
+                background:#666666;
+                color:white;
+                text-decoration:none;
+                display:block;
+                font-size:32px;
+                line-height:32px;
+                font-family:arial;
+                font-weight:bold;
+                text-align:center;
+            }
+
+            #playbutton:hover {
+                background:red;
+            }
+
+            #viewport {
+                //width:100%;//98%;
+                //height:100%;//480px;
+                overflow:hidden;
+                //top:50%;
+                //margin-top:-240px;
+            }
+
+        </style>
+        <script src="../js/fpsmeter.js"></script>
+    </head>
+    <body>
+        <div id="info"></div>
+        <div id='viewport'>
+        </div>
+
+        <a id='playbutton' href='javascript:startBenchmark()'>Click to start</a>
+
+        <script type='text/javascript'>
+
+            // parse parameter of html page
+            if (typeof pageParams === 'undefined') {
+                var pageParams = window.location.search || '';
+            }
+
+            if (pageParams[0] == '?') pageParams = pageParams.substr(1);
+            var urlParts = pageParams.split('&');
+
+            var background  = 0;
+            var textures     = 0;
+            var fullscreen  = 1;
+            var numSprites = 100;
+            var autostart = 0;
+
+            // set new value with the parameter of url
+            for (var i = 0; i < urlParts.length; i++) {
+                var eltParts = urlParts[i].split('=');
+
+                if (eltParts[0].toLowerCase() == "background") {
+                  background = parseInt(eltParts[1]);
+                  if (isNaN(background)) {
+                    background = 0;
+                  }
+                } else if (eltParts[0].toLowerCase() == "textures") {
+                  textures = parseInt(eltParts[1]);
+                  if (isNaN(textures)) {
+                    textures = 0;
+                  }
+                } else if (eltParts[0].toLowerCase() == "fullscreen") {
+                  fullscreen = parseInt(eltParts[1]);
+                  if (isNaN(fullscreen)) {
+                    fullscreen = 1;
+                  }
+                } else if (eltParts[0].toLowerCase() == "particles") {
+                  numSprites = parseInt(eltParts[1]);
+                  if (isNaN(numSprites)) {
+                    numSprites = 100;
+                  }
+                } else if (eltParts[0].toLowerCase() == "autostart") {
+                  autostart = 1;
+                }
+            }
+
+            var colors = [
+                "../images/colors/blauw_300.jpg",
+                "../images/colors/gray_300.jpg",
+                "../images/colors/lichtgroen_300.jpg",
+                "../images/colors/orange_300.jpg",
+                "../images/colors/rainbow_300.jpg",
+                "../images/colors/red_300.jpg",
+                "../images/colors/purple_300.jpg",
+                "../images/colors/turkoois_300,jpg"
+            ];
+            var colors2 = [
+                "../images/512_1.jpg",
+                "../images/512_2.jpg",
+                "../images/512_3.jpg",
+                "../images/512_4.jpg",
+                "../images/512_5.jpg",
+            ];
+
+            var fpsmeter = new FPSMeter();
+            var info = document.getElementById("info");
+            var start = new Date().getTime();
+            var delay = 30;
+
+            var divs = [];
+
+            // ensure that we have requestAnimationFrame
+            // this is Paul Irish's compatibility shim
+            if (!window.requestAnimationFrame) {
+                window.requestAnimationFrame = (function() {
+                    return window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    window.msRequestAnimationFrame ||
+                    function(callback,element) {
+                        window.setTimeout(callback, 1000 / 60);
+                    };
+                })();
+            }
+
+            function randomlyAssignDivProperties(div) {
+                div.style.backgroundColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+
+                div.style.position = "relative";
+                div.style.height = 512;//Math.floor((Math.random() * 50) + 1) + "%";
+                div.style.width = 512;//Math.floor((Math.random() * 50) + 1) + "%";
+                div.style.left = Math.floor((Math.random() * 50) + 1) + "%";
+                div.style.top = Math.floor((Math.random() * 50) + 1) + "%";
+
+                div.style['box-shadow'] = (Math.random() * 30) + "px " +
+                                          (Math.random() * 30) + "px " +
+                                          (Math.random() * 30) + "px " +
+                                          '#'+Math.floor(Math.random()*16777215).toString(16);
+            }
+
+            // run each frame
+            function animate() {
+                // call this function again asap
+                requestAnimationFrame(animate);
+
+                for (var i = 0; i < divs.length; i++) {
+                    randomlyAssignDivProperties(divs[i]);
+                }
+
+                 if(new Date().getTime() - start > delay * 1000){
+                    info.textContent = "====== FPS AVG : " + fpsmeter.fpsAvg() + " ======";
+                    return;
+                }
+
+                fpsmeter.update();
+
+                var fps = fpsmeter.fpsAvg();
+                if (isNaN(fps))
+                  fps = fpsmeter.fps();
+
+                if (fps > 0) {
+                    info.textContent = "FPS AVG : " + fps;
+                }
+
+            }
+
+            function startBenchmark() {
+                playbutton.style.display = 'none';
+
+                var viewport = document.getElementById('viewport');
+
+                if (fullscreen == 1) {
+                    viewport.style.width = "100%";
+                    viewport.style.height = "100%";
+                } else {
+                    viewport.style.width = "98%";
+                    viewport.style.height = "480px";
+                    viewport.style.top = "50%";
+                    viewport.style.marginTop = "-240px";
+                }
+
+                if (background == 1) {
+                    viewport.style.backgroundImage = 'url('+colors2[(Math.random() * (colors2.length - 1)) >> 0] + ')';
+                    viewport.style.backgroundRepeat = "no-repeat";
+                    viewport.style.backgroundSize = "100% 100%";
+                }
+
+                for (var i = 0; i < numSprites; i++) {
+                    var div = document.createElement('div');
+                    if (textures == 1) {
+                        div.style.backgroundImage = 'url('+colors2[(Math.random() * (colors2.length - 1)) >> 0] + ')';
+                        div.style.backgroundRepeat = "no-repeat";
+                        div.style.backgroundSize = "100% 100%";
+                    }
+                    divs.push(div);
+                    viewport.appendChild(div);
+                }
+
+                animate();
+            }
+
+            if (autostart)
+                startBenchmark();
+
+        </script>
+    </body>
+</html>

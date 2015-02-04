@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>SPP Demos</title>
+    <style type="text/css">
+      body, html {
+  		  height: 100%;
+        width: 100%;
+  		  margin: 0;
+  		  padding: 0;
+        overflow:hidden;
+        background: black;
+        position:absolute;
+      }
+
+      .sprite {
+        position:absolute;
+        margin:0;
+        padding:0;
+        border:0;
+        outline:0;
+        font-family:arial;
+        font-size:12px;
+        color:white;
+        text-align:center;
+      }
+      #outer {
+        position: relative;
+        overflow:hidden;
+      }
+      #viewport {
+        position: absolute;
+        background-image: url(../images/fruitninja/bg.jpg);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
+      #result {
+        width:100%;
+        top:54px;
+        left:0px;
+        border:1;
+        opacity:0.9;
+        color: rgb(0, 255, 255);
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+        text-align:left;
+        position:absolute;
+        overflow:hidden;
+        padding: auto;;
+        background-color: rgb(0, 0, 34);
+      }
+    </style>
+
+    <!-- SPP LIBRARY -->
+    <script src="../spp/Spp.js"></script>
+    <script src="../spp/utils/MathUtils.js"></script>
+    <script src="../spp/event/Event.js"></script>
+    <script src="../spp/event/EventDispatcher.js"></script>
+    <script src="../spp/geom/Rectangle.js"></script>
+    <script src="../spp/geom/Vector2D.js"></script>
+    <script src="../spp/geom/VectorPool.js"></script>
+    <script src="../spp/particles/Particle.js"></script>
+    <script src="../spp/particles/Pool.js"></script>
+    <script src="../spp/particles/Group.js"></script>
+    <script src="../spp/particles/ParticleSystem.js"></script>
+    <script src="../spp/particles/Zone.js"></script>
+    <script src="../spp/physics/Force.js"></script>
+    <script src="../spp/physics/Attraction.js"></script>
+    <script src="../spp/physics/Brownian.js"></script>
+    <script src="../spp/physics/SimpleBrownian.js"></script>
+    <script src="../spp/physics/Repulsion.js"></script>
+    <script src="../spp/extras/SpriteImage.js"></script>
+
+    <script src="../js/fpsmeter.js"></script>
+    <script src="../js/preloadjs-0.4.1.min.js"></script>
+
+    <script type="text/javascript">
+
+      // parse parameter of html page
+      if (typeof pageParams === 'undefined') {
+        var pageParams = window.location.search || '';
+      }
+
+      if (pageParams[0] == '?') pageParams = pageParams.substr(1);
+      var urlParts = pageParams.split('&');
+
+      var numParticles = 200;
+      var mode = "";
+      var delay = 60;
+      var rotate = 1;
+      var matrix = 0;
+      var use_prefixed = 0;
+      var autostart = 0;
+
+      // set new value with the parameter of url
+      for (var i = 0; i < urlParts.length; i++) {
+        var eltParts = urlParts[i].split('=');
+
+        if (eltParts[0].toLowerCase() == "delay") {
+          delay = parseInt(eltParts[1]);
+          if (isNaN(delay)) {
+            delay = -1;
+          }
+        } else if (eltParts[0].toLowerCase() == "particles") {
+          numParticles = parseInt(eltParts[1]);
+          if (isNaN(numParticles)) {
+            numParticles = 100;
+          }
+        } else if (eltParts[0].toLowerCase() == "rotate") {
+          rotate = parseInt(eltParts[1]);
+          if (isNaN(rotate)) {
+            rotate = 0;
+          }
+        } else if (eltParts[0].toLowerCase() == "matrix") {
+          matrix = parseInt(eltParts[1]);
+          if (isNaN(matrix)) {
+            matrix = 0;
+          }
+        } else if (eltParts[0].toLowerCase() == "prefix") {
+          use_prefixed = parseInt(eltParts[1]);
+          if (isNaN(use_prefixed)) {
+            use_prefixed = 0;
+          }
+        } else if (eltParts[0].toLowerCase() == "autostart") {
+          autostart = 1;
+        }
+      }
+    </script>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/fruitninja/fruitninjagame.js"></script>
+    <script src="../js/fruitninja/Assets.js"></script>
+    <script src="../js/fruitninja/AssetsManager.js"></script>
+    <script src="../js/fruitninja/Collide.js"></script>
+    <script src="../js/fruitninja/Fruit.js"></script>
+    <script src="../js/fruitninja/Module_ui.js"></script>
+    <script src="../js/fruitninja/Module_fruit.js"></script>
+    <script src="../js/fruitninja/Module_collide.js"></script>
+    <script src="../js/fruitninja/Module_blade.js"></script>
+    <script src="../js/fruitninja/fruitninja.js"></script>
+  </head>
+  <body onload="init();">
+    <div id="outer">
+    <div id="viewport">
+      <div class="sprite" id="ui_scoreText"></div>
+      <div class="sprite" id="ui_scoreMissText"></div>
+      <div class="sprite" id="ui_fpsText"></div>
+      <div class="sprite" id="ui_sppText"></div>
+      <!--
+      <div id="result">
+      Total 0 / Success 0 / Miss 0
+      </div>
+      -->
+    </div>
+  </div>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" lang="en">
+
+
+
+
+<head>
+
+	<title>Benchmark - HTML &amp; JavaScript</title>
+
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="The Man in Blue" />
+	<meta name="robots" content="all" />
+	<meta name="MSSmartTagsPreventParsing" content="true" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+
+	<style type="text/css">
+
+	html
+	{
+		height: 100%;
+	}
+
+	body
+	{
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		margin: 0;
+		padding: 0;
+
+		background-image: url(../images/background.jpg);
+    	background-repeat: no-repeat;
+    	background-size: 100% 100%;
+	}
+
+	span
+	{
+		position: absolute;
+		width: 12px;
+		height: 12px;
+		overflow: hidden;
+		-webkit-border-radius: 6px;
+		-moz-border-radius: 6px;
+		background-color: #000000;
+	}
+
+	.shadows span
+	{
+		-webkit-box-shadow: 4px 4px 3px rgba(0,0,0,0.33);
+		-moz-box-shadow: 4px 4px 3px rgba(0,0,0,0.33);
+	}
+
+  #info {
+      position: absolute;
+      width: 100%;
+      color: #000000;
+      padding: 5px;
+      font-family: Monospace;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: left;
+      z-index: 1;
+  }
+	</style>
+	<script type="text/javascript">
+	if (!window.requestAnimationFrame)
+	{
+		window.requestAnimationFrame = (function()
+		{
+			return window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame ||
+			window.oRequestAnimationFrame ||
+			window.msRequestAnimationFrame ||
+			function(callback,element)
+			{
+				window.setTimeout(callback, 1000 / 60);
+			};
+		})();
+	}
+	</script>
+  	<script src="../js/fpsmeter.js"></script>
+	<script type="text/javascript" src="../js/svg.js" />
+
+</head>
+
+
+
+
+<body>
+	<div id="info"></div>
+	<svg:svg id="benchmark" width="100%" height="100%">
+	</svg:svg>
+
+</body>
+
+
+
+
+</html>

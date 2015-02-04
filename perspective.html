@@ -1,0 +1,99 @@
+<!--
+Copyright (C) 2009 Apple Inc. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY APPLE INC. AND ITS CONTRIBUTORS “AS IS” AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL APPLE INC. OR ITS CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CSS 3D Transform Benchmark: Perspective</title>
+        <style type="text/css" media="screen">
+            #container {
+                -webkit-transform-style: preserve-3d;
+                -webkit-animation-name: perspectiveAnimation;
+                -webkit-animation-duration: 1s;
+                -webkit-animation-timing-function: linear;
+                -webkit-animation-iteration-count: infinite;
+                -webkit-animation-direction: alternate;
+            }
+
+            @-webkit-keyframes perspectiveAnimation {
+                0% { -webkit-perspective: 20px; }
+                100% { -webkit-perspective: 1000px; }
+            }
+
+            #container > div {
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                opacity: 0.75;
+                -webkit-box-sizing: border-box;
+                -webkit-animation-name: rotationAnimation;
+                -webkit-animation-duration: 2s;
+                -webkit-animation-timing-function: linear;
+                -webkit-animation-iteration-count: infinite;
+                -webkit-animation-direction: alternate;
+            }
+
+            @-webkit-keyframes rotationAnimation {
+                0% { -webkit-transform: rotateX(45deg) rotateY(0deg) rotateZ(0deg); }
+                100% { -webkit-transform: rotateX(0deg) rotateY(45deg) rotateZ(180deg); }
+            }
+
+        </style>
+        <script type="text/javascript" src="common.js"></script>
+        <script type="text/javascript">
+            function init() {
+                var topPos = 50;
+                var leftPos = 50;
+                var containerElem = document.getElementById("container");
+                containerElem.style.width = window.innerWidth;
+                containerElem.style.height = window.innerHeight;
+
+                columns = Math.ceil((window.innerWidth - (leftPos*2) - 100) / 50);
+                rows = Math.ceil((window.innerHeight - (topPos*2) - 100) / 50);
+
+                for (var i = 0; i < columns*rows; i++) {
+                    if (leftPos >= (window.innerWidth - 150)) {
+                        topPos += 50;
+                        leftPos = 50;
+                    }
+
+                    var rect = document.createElement('div');
+                    if (i%2)
+                        rect.style.backgroundColor = 'green';
+                    else
+                        rect.style.backgroundColor = 'red';
+                    rect.style.top = topPos + "px";
+                    rect.style.left = leftPos + "px";
+                    containerElem.appendChild(rect);
+                    leftPos += 50;
+                }
+            }
+
+            window.addEventListener('load', init, false);
+        </script>
+    </head>
+    <body>
+        <div id="container"></div>
+    </body>
+</html>

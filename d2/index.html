@@ -1,0 +1,312 @@
+<html>
+    <head>
+        <title>SPP Demos</title>
+        <style type="text/css">
+            table {
+                font-weight: bold;
+                overflow:hidden;
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                font-size:60px;
+                width:90%;
+            }
+            label {
+                font-weight: bold;
+                overflow:hidden;
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                font-size:65px;
+            }
+            input[type=radio] {
+                display: none;
+            }
+            input[type=radio] + label::before {
+                content: '';
+                display: inline-block;
+                border: 1px solid #000;
+                border-radius: 50%;
+                margin: 0 0.5em;
+            }
+            input[type=radio]:checked + label::before {
+                background-color: #ffa;
+            }
+            .radio + label::before {
+                width: 1.8em;
+                height: 1.8em;
+            }
+        </style>
+        <script type="text/javascript">
+            function OpenMosquitos(url,mode)
+            {
+                var particles = 100;
+                var radios = document.getElementsByName("particles2");
+
+                for(var i = 0; i < radios.length; i++){
+                    if(radios[i].checked) {
+                        particles = radios[i].value;
+                        break;
+                    }
+                }
+
+
+                window.open(url+"?rotate=1&background=1&mosquito=1&count="+parseInt(Math.sqrt(particles)),'_self',false);
+            }
+
+            function OpenSprites(url,mode)
+            {
+                var particles = 100;
+                var radios = document.getElementsByName("particles2");
+
+                for(var i = 0; i < radios.length; i++){
+                    if(radios[i].checked) {
+                        particles = radios[i].value;
+                        break;
+                    }
+                }
+
+                window.open(url+"?particles="+particles,'_self',false);
+            }
+
+            function OpenParticles(sample,mode)
+            {
+                var particles = 100;
+                var radios = document.getElementsByName("particles");
+
+                for(var i = 0; i < radios.length; i++){
+                    if(radios[i].checked) {
+                        particles = radios[i].value;
+                        break;
+                    }
+                }
+
+                if (sample == 4)
+                    window.open("html/fruitninja.html?prefix=1&particles="+particles,'_self',false);
+                else
+                    window.open("html/demos.html?prefix=1&sample="+sample+"&mode="+mode+"&particles="+particles+"&delay=30",'_self',false);
+            }
+        </script>
+    </head>
+    <body>
+        <center>
+            <br>
+            <hr>
+            <br>
+            <form>
+                <label>SPP Particles</label>
+            </form>
+            <form name="FormParticles">
+                <input id="r1" type="radio" name="particles" class="radio" value="100" checked="1"/>
+                <label for="r1">100</label>
+                <input id="r2" type="radio" name="particles" class="radio" value="150" />
+                <label for="r2">150</label>
+                <input id="r3" type="radio" name="particles" class="radio" value="200" />
+                <label for="r3">200</label>
+            </form>
+            <table>
+                <tr>
+                    <td>
+                        <br>FRUIT-NINJA
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenParticles(4,'')">PLAY</a>
+                    </th>
+                    <th>&nbsp;</th>
+                    <th>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>BASIC 1
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenParticles(0,'auto')">AUTO</a>
+                    </th>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenParticles(0,'manual')">MANUAL</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>BASIC 2
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenParticles(1,'auto')">AUTO</a>
+                    </th>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenParticles(1,'manual')">MANUAL</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>ATTRACTION
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenParticles(2,'auto')">AUTO</a>
+                    </th>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenParticles(2,'manual')">MANUAL</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>REPULSION
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenParticles(3,'auto')">AUTO</a>
+                    </th>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenParticles(3,'manual')">MANUAL</a>
+                    </th>
+                </tr>
+            </table>
+            <br>
+            <hr>
+            <br>
+            <form>
+                <label>Sprites & Svg</label>
+            </form>
+            <form name="FormParticles">
+                <input id="r12" type="radio" name="particles2" class="radio" value="100" checked="1"/>
+                <label for="r12">100</label>
+                <input id="r22" type="radio" name="particles2" class="radio" value="150" />
+                <label for="r22">150</label>
+                <input id="r32" type="radio" name="particles2" class="radio" value="200" />
+                <label for="r32">200</label>
+            </form>
+             <table>
+                <tr>
+                    <td>
+                        <br>V-ANIM BACKGROUND
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenSprites('html/shooter.html')">LAUNCH</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>SPRITES
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenSprites('html/sprites.html')">LAUNCH</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>RANDOM SHADOW DIV
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenSprites('html/random-shadow-divs.html?background=1&textures=1')">LAUNCH</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>PERIODIC THREE.JS
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenSprites('html/css3d_periodictable.html')">LAUNCH</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>SPRITES THREE.JS
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenSprites('html/css3d_sprites.html')">LAUNCH</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>SVG PARTICLES
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenSprites('html/svg.xhtml')">LAUNCH</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>MOSQUITOS
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="javascript:OpenMosquitos('html/mosquitos.html')">LAUNCH</a>
+                    </th>
+                </tr>
+            </table>
+            <br>
+            <hr>
+            <br>
+            <form>
+                <label>Animations</label>
+            </form>
+             <table>
+                <tr>
+                    <td>
+                        <br>SNOW
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="html/snow.html">LAUNCH</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <br>SOLAR
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="html/solar.html">LAUNCH</a>
+                    </th>
+                </tr>
+            </table>
+            <br>
+            <hr>
+            <br>
+            <form>
+                <label>WebGL</label>
+            </form>
+ 		<table>
+                <tr>
+                    <td>
+                        <br>RACER-S
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="racer/index.html">LAUNCH</a>
+                    </th>
+                </tr>
+		</table>
+            <br>
+            <hr>
+            <br>
+            <form>
+                <label>Bug</label>
+            </form>
+        <table>
+                <tr>
+                    <td>
+                        <br>ZOOM WOLF
+                    </td>
+                    <th>&nbsp;</th>
+                    <th>
+                        <br><a href="html/wolf.html">LAUNCH</a>
+                    </th>
+                </tr>
+        </table>
+        </center>
+    </body>
+</html>

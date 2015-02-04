@@ -1,0 +1,136 @@
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<style type="text/css">
+	body { margin:0; padding:0; border:0; overflow:hidden; }
+	div { position:absolute; margin:0; padding:0; border:0; outline:0; 
+		font-family:arial; font-size:12px; text-align:center; }
+	#header { width:100%; top:24px; left:0px; }
+	#stats { width:100%; bottom:24px; left:0px; }
+	#playbutton { position:absolute; top:50%; left:50%; margin-left:-137px; 
+		margin-top:-25px; width:256px; height:32px; padding:16px; border-radius:16px; 
+		border:2px solid black; background:#666666; color:white; 
+		text-decoration:none; display:block; font-size:32px; line-height:32px; 
+		font-family:arial; font-weight:bold; text-align:center; }
+	#playbutton:hover { background:red; }
+	#viewport {
+        width:98%;
+        height:480px;
+        overflow:hidden;
+        top:50%;
+        margin-top:-240px;
+    }
+</style>
+</head>
+<body>
+
+<div id='viewport'><div id='background'><div id='level'></div></div></div>
+
+<a id='playbutton' href='javascript:startBenchmark()'>Click to start</a>
+
+<div id='stats'></div>
+
+<script type='text/javascript'>
+
+// grab the DOM elements we want to manipulate
+var viewport = document.getElementById('viewport');
+var level = document.getElementById('level');
+var background = document.getElementById('background');
+var stats = document.getElementById('stats');
+var playbutton = document.getElementById('playbutton');
+
+// size of the the viewport and the larger level within
+var viewportW = viewport.clientWidth;
+var viewportH = viewport.clientHeight;
+var levelW = level.clientWidth;
+var levelH = level.clientHeight;
+
+var currentTimestamp = new Date().getTime();
+var previousTimestamp = 0;
+var framesThisSecond = 0;
+var elapsedMs = 0;
+var currentFPS = 60;
+var fpsSamples = [];
+
+var divs = [];
+
+// ensure that we have requestAnimationFrame
+// this is Paul Irish's compatibility shim
+if (!window.requestAnimationFrame) {
+	window.requestAnimationFrame = (function() {
+		return window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		window.oRequestAnimationFrame ||
+		window.msRequestAnimationFrame ||
+		function(callback,element) {
+			window.setTimeout(callback, 1000 / 60);
+		};
+	})();
+}
+
+// measure the framerate and add/remove sprites
+// depending on how fast we're animating
+function checkFPS() {
+	framesThisSecond++;
+	previousTimestamp = currentTimestamp;
+	currentTimestamp = new Date().getTime();
+	elapsedMs += currentTimestamp - previousTimestamp;
+	currentFPS = 1000 / (currentTimestamp - previousTimestamp);
+
+    fpsSamples.push(currentFPS);
+    var fpsSum = 0;
+    for (var i = 0; i < fpsSamples.length; i++) {
+        fpsSum += fpsSamples[i];
+    }
+
+	// only update once per second
+	if (elapsedMs >= 1000)
+	{
+		stats.innerHTML = fpsSum/fpsSamples.length + 'fps';
+		elapsedMs -= 1000;
+		framesThisSecond = 0;
+	}
+}
+
+function randomlyAssignDivProperties(div) {
+    div.style.backgroundColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+    div.style.position = "relative";
+    div.style.height = Math.floor((Math.random() * 50) + 1) + "%";
+    div.style.width = Math.floor((Math.random() * 50) + 1) + "%";
+    div.style.left = Math.floor((Math.random() * 50) + 1) + "%";
+    div.style.top = Math.floor((Math.random() * 50) + 1) + "%";
+
+    div.style['box-shadow'] = (Math.random() * 30) + "px " +
+                              (Math.random() * 30) + "px " +
+                              (Math.random() * 30) + "px " + 
+                              '#'+Math.floor(Math.random()*16777215).toString(16);
+}
+
+// run each frame
+function animate() {
+    // call this function again asap
+    requestAnimationFrame(animate);
+
+    // measure time and add or remove sprites
+    checkFPS();
+
+    for (var i = 0; i < divs.length; i++) {
+        randomlyAssignDivProperties(divs[i]);
+    }
+}
+
+function startBenchmark() {
+    playbutton.style.display = 'none';
+
+    for (var i = 0; i < 150; i++) {
+        var div = document.createElement('div');
+        divs.push(div);
+        document.getElementById('viewport').appendChild(div);
+    }
+    animate();
+}
+
+</script>
+
+</body>
+</html>

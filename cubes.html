@@ -1,0 +1,216 @@
+<!--
+Copyright (C) 2013 Samsung Electronics Corporation. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided the following conditions are met:
+
+1.  Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+2.  Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY SAMSUNG ELECTRONICS CORPORATION AND ITS
+CONTRIBUTORS "AS IS", AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL SAMSUNG
+ELECTRONICS CORPORATION OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES(INCLUDING
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS, OR BUSINESS INTERRUPTION), HOWEVER CAUSED AND ON ANY THEORY
+OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT(INCLUDING
+NEGLIGENCE OR OTHERWISE ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CSS 3D Transform Benchmark: Cube</title>
+        <style type="text/css">
+            #container {
+                -webkit-perspective: 1000px;
+                -webkit-perspective-origin: 50% 50%;
+            }
+
+            /* 24 * 2.5 = 60s */
+            .cube {
+                position: fixed;
+                width: 200px;
+                height: 200px;
+                -webkit-transform-style: preserve-3d;
+                -webkit-transform-origin: 50% 50%;
+                -webkit-animation-name: cubeAnimation;
+                -webkit-animation-duration: 2.5s;
+                -webkit-animation-timing-function: linear;
+                -webkit-animation-iteration-count: infinite;
+            }
+
+            @-webkit-keyframes cubeAnimation {
+                to { -webkit-transform: rotate3d(1, 1, 1, 360deg); }
+            }
+
+            .cube .face {
+                position: absolute;
+                width: inherit;
+                height: inherit;
+                opacity: 0.25;
+                -webkit-transform-origin: 50% 50%;
+            }
+
+            .cube .face.front {
+                background-color: red;
+                -webkit-animation-name: cubeFaceFrontAnimation;
+                -webkit-animation-duration: 2.5s;
+                -webkit-animation-timing-function: ease;
+                -webkit-animation-iteration-count: infinite;
+            }
+
+            @-webkit-keyframes cubeFaceFrontAnimation {
+                from { -webkit-transform: translateZ(100px) scale(1, 1); }
+                25% { -webkit-transform: translateZ(200px) scale(2, 2); }
+                50% { -webkit-transform: translateZ(100px) scale(1, 1); }
+                75% { -webkit-transform: translateZ(50px) scale(0.5, 0.5); }
+                to { -webkit-transform: translateZ(100px) scale(1, 1); }
+            }
+
+            .cube .face.back {
+                background-color: blue;
+                -webkit-animation-name: cubeFaceBackAnimation;
+                -webkit-animation-duration: 2.5s;
+                -webkit-animation-timing-function: ease;
+                -webkit-animation-iteration-count: infinite;
+            }
+
+            @-webkit-keyframes cubeFaceBackAnimation {
+                from { -webkit-transform: rotateY(180deg) rotateZ(180deg) translateZ(100px) scale(1, 1); }
+                25% { -webkit-transform: rotateY(180deg) rotateZ(180deg) translateZ(200px) scale(2, 2); }
+                50% { -webkit-transform: rotateY(180deg) rotateZ(180deg) translateZ(100px) scale(1, 1); }
+                75% { -webkit-transform: rotateY(180deg) rotateZ(180deg) translateZ(50px) scale(0.5, 0.5); }
+                to { -webkit-transform: rotateY(180deg) rotateZ(180deg) translateZ(100px) scale(1, 1); }
+            }
+
+            .cube .face.left {
+                background-color: green;
+                -webkit-animation-name: cubeFaceLeftAnimation;
+                -webkit-animation-duration: 2.5s;
+                -webkit-animation-timing-function: ease;
+                -webkit-animation-iteration-count: infinite;
+            }
+
+            @-webkit-keyframes cubeFaceLeftAnimation {
+                from { -webkit-transform: rotateY(90deg) translateZ(100px) scale(1, 1); }
+                25% { -webkit-transform: rotateY(90deg) translateZ(200px) scale(2, 2); }
+                50% { -webkit-transform: rotateY(90deg) translateZ(100px) scale(1, 1); }
+                75% { -webkit-transform: rotateY(90deg) translateZ(50px) scale(0.5, 0.5); }
+                to { -webkit-transform: rotateY(90deg) translateZ(100px) scale(1, 1); }
+            }
+
+            .cube .face.right {
+                background-color: yellow;
+                -webkit-animation-name: cubeFaceRightAnimation;
+                -webkit-animation-duration: 2.5s;
+                -webkit-animation-timing-function: ease;
+                -webkit-animation-iteration-count: infinite;
+            }
+
+            @-webkit-keyframes cubeFaceRightAnimation {
+                from { -webkit-transform: rotateY(-90deg) translateZ(100px) scale(1, 1); }
+                25% { -webkit-transform: rotateY(-90deg) translateZ(200px) scale(2, 2); }
+                50% { -webkit-transform: rotateY(-90deg) translateZ(100px) scale(1, 1); }
+                75% { -webkit-transform: rotateY(-90deg) translateZ(50px) scale(0.5, 0.5); }
+                to { -webkit-transform: rotateY(-90deg) translateZ(100px) scale(1, 1); }
+            }
+
+            .cube .face.top {
+                background-color: purple;
+                -webkit-animation-name: cubeFaceTopAnimation;
+                -webkit-animation-duration: 2.5s;
+                -webkit-animation-timing-function: ease;
+                -webkit-animation-iteration-count: infinite;
+            }
+
+            @-webkit-keyframes cubeFaceTopAnimation {
+                from { -webkit-transform: rotateX(90deg) translateZ(100px) scale(1, 1); }
+                25% { -webkit-transform: rotateX(90deg) translateZ(200px) scale(2, 2); }
+                50% { -webkit-transform: rotateX(90deg) translateZ(100px) scale(1, 1); }
+                75% { -webkit-transform: rotateX(90deg) translateZ(50px) scale(0.5, 0.5); }
+                to { -webkit-transform: rotateX(90deg) translateZ(100px) scale(1, 1); }
+            }
+
+            .cube .face.bottom {
+                background-color: navy;
+                -webkit-animation-name: cubeFaceBottomAnimation;
+                -webkit-animation-duration: 2.5s;
+                -webkit-animation-timing-function: ease;
+                -webkit-animation-iteration-count: infinite;
+            }
+
+            @-webkit-keyframes cubeFaceBottomAnimation {
+                from { -webkit-transform: rotateX(-90deg) translateZ(100px) scale(1, 1); }
+                25% { -webkit-transform: rotateX(-90deg) translateZ(200px) scale(2, 2); }
+                50% { -webkit-transform: rotateX(-90deg) translateZ(100px) scale(1, 1); }
+                75% { -webkit-transform: rotateX(-90deg) translateZ(50px) scale(0.5, 0.5); }
+                to { -webkit-transform: rotateX(-90deg) translateZ(100px) scale(1, 1); }
+            }
+        </style>
+        <script type="text/javascript" src="common.js"></script>
+        <script type="text/javascript">
+            var topPos = 50;
+            var leftPos = 50;
+
+            function createCube() {
+                frontFace = document.createElement('div');
+                frontFace.className = 'face front';
+                backFace = document.createElement('div');
+                backFace.className = 'face back';
+                topFace = document.createElement('div');
+                topFace.className = 'face top';
+                bottomFace = document.createElement('div');
+                bottomFace.className = 'face bottom';
+                leftFace = document.createElement('div');
+                leftFace.className = 'face left';
+                rightFace = document.createElement('div');
+                rightFace.className = 'face right';
+
+                cube = document.createElement('div');
+                cube.className = 'cube';
+                cube.appendChild(frontFace);
+                cube.appendChild(backFace);
+                cube.appendChild(topFace);
+                cube.appendChild(bottomFace);
+                cube.appendChild(leftFace);
+                cube.appendChild(rightFace);
+                cube.style.top = topPos + "px";
+                cube.style.left = leftPos + "px";
+
+                container = document.getElementById('container');
+                container.appendChild(cube);
+            }
+
+            function init() {
+                containerElem = document.getElementById('container');
+                containerElem.style.width = window.innerWidth;
+                containerElem.style.height = window.innerHeight;
+
+                columns = Math.ceil((window.innerWidth - (leftPos*2) - 200) / 50);
+                rows = Math.ceil((window.innerHeight - (topPos*2) - 200) / 50);
+
+                for (var i = 0; i < columns*rows; i++) {
+                    if (leftPos >= (window.innerWidth - 250)) {
+                        topPos += 50;
+                        leftPos = 50;
+                    }
+                    createCube();
+                    leftPos += 50;
+                }
+            }
+
+            // call init once the document is fully loaded
+            window.addEventListener('load', init, false);
+        </script>
+    </head>
+    <body>
+        <div id="container"></div>
+    </body>
+</html>

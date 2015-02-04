@@ -1,0 +1,121 @@
+<!--
+Copyright (C) 2009 Apple Inc. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY APPLE INC. AND ITS CONTRIBUTORS “AS IS” AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL APPLE INC. OR ITS CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Explaining transform-style</title>
+        <style type="text/css" media="screen">
+            .box {
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                -webkit-perspective: 500;
+                -webkit-perspective-origin: 50% 50%;
+            }
+
+            .parent {
+                width: 100px;
+                height: 100px;
+                background-color: #844BCA;
+                opacity: 0.75;
+                -webkit-animation: spin 2s infinite linear;
+            }
+
+            @-webkit-keyframes spin {
+                from { -webkit-transform: rotateY(0); }
+                to   { -webkit-transform: rotateY(360deg); }
+            }
+
+            .parent > div {
+                position: absolute;
+                top: 25px;
+                left: 25px;
+                width: 50px;
+                height: 50px;
+                -webkit-box-sizing: border-box;
+            }
+
+            .parent > :first-child {
+                background-color: #49DC93;
+                -webkit-animation: firstChild 2s infinite linear alternate;
+            }
+
+            @-webkit-keyframes firstChild {
+                from { -webkit-transform: translateZ(0px) rotateY(0deg); }
+                to   { -webkit-transform: translateZ(-50px) rotateY(45deg); }
+            }
+
+            .parent > :last-child {
+                background-color: #FF6;
+                -webkit-animation: lastChild 2s infinite linear alternate;
+            }
+
+            @-webkit-keyframes lastChild {
+                from { -webkit-transform-origin: 50% top; -webkit-transform: translateZ(0px) rotateZ(0deg); }
+                to   { -webkit-transform-origin: 50% top; -webkit-transform: translateZ(50px) rotateZ(45deg); }
+            }
+
+        </style>
+        <script type="text/javascript" src="common.js"></script>
+        <script type="text/javascript">
+            function init() {
+                var topPos = 50;
+                var leftPos = 50;
+                var containerElem = document.getElementById('container');
+                containerElem.style.width = window.innerWidth;
+                containerElem.style.height = window.innerHeight;
+
+                columns = Math.ceil((window.innerWidth - (leftPos*2) - 100) / 50);
+                rows = Math.ceil((window.innerHeight - (topPos*2) - 100) / 50);
+
+                for (var i = 0; i < columns*rows; i++) {
+                    if (leftPos >= (window.innerWidth - 150)) {
+                        topPos += 50;
+                        leftPos = 50;
+                    }
+
+                    var parentElem = document.createElement('div');
+                    parentElem.className = 'parent';
+                    parentElem.appendChild(document.createElement('div'));
+                    parentElem.appendChild(document.createElement('div'));
+
+                    var boxElem = document.createElement('div');
+                    boxElem.className = 'box';
+                    boxElem.appendChild(parentElem);
+                    boxElem.style.top = topPos + "px";
+                    boxElem.style.left = leftPos + "px";
+
+                    containerElem.appendChild(boxElem);
+                    leftPos += 50;
+                }
+            }
+
+            window.addEventListener('load', init, false);
+        </script>
+    </head>
+    <body>
+        <div id="container"></div>
+    </body>
+</html>
